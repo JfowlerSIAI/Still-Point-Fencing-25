@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Still Point Fencing - Success Report 2024-2025</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #414042 0%, #be1e2d 100%);
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            border-radius: 15px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #414042 0%, #be1e2d 100%);
+            color: white;
+            border-radius: 10px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 42px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 20px;
+            margin-top: 10px;
+            opacity: 0.95;
+        }
+        .achievement-banner {
+            background: linear-gradient(135deg, #be1e2d 0%, #d42a39 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 2px solid #e0e0e0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .stat-card.primary {
+            background: linear-gradient(135deg, #414042 0%, #515052 100%);
+            color: white;
+            border: none;
+        }
+        .stat-card.success {
+            background: linear-gradient(135deg, #be1e2d 0%, #d42a39 100%);
+            color: white;
+            border: none;
+        }
+        .stat-card h3 {
+            margin: 0;
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .stat-card p {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        h2 {
+            color: #414042;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-size: 32px;
+            border-bottom: 3px solid #be1e2d;
+            padding-bottom: 10px;
+        }
+        .chart-container {
+            margin: 30px 0;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 500px;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            border-left: 5px solid #be1e2d;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .top-performers {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        .performer-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .performer-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #be1e2d;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: help;
+        }
+        .performer-rank {
+            font-size: 24px;
+            font-weight: bold;
+            color: #be1e2d;
+        }
+        .performer-name {
+            font-weight: 600;
+            margin: 5px 0;
+        }
+        .performer-events {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .medal-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: help;
+        }
+        .medal-item.gold {
+            border-left: 4px solid #f39c12;
+        }
+        .medal-item.silver {
+            border-left: 4px solid #95a5a6;
+        }
+        .medal-item.bronze {
+            border-left: 4px solid #cd7f32;
+        }
+        .medal-count {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .medal-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .medal-icon.gold {
+            background-color: #f39c12;
+        }
+        .medal-icon.silver {
+            background-color: #95a5a6;
+        }
+        .medal-icon.bronze {
+            background-color: #cd7f32;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #be1e2d;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .footer-note {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-style: italic;
+            color: #7f8c8d;
+        }
+        .rating-note {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .tucson-section {
+            background: #f8f9fa;
+            padding: 40px;
+            margin: 40px -40px;
+            text-align: center;
+        }
+        .tucson-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .tucson-stat {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .tucson-stat h4 {
+            margin: 0;
+            font-size: 36px;
+            color: #be1e2d;
+        }
+        .tucson-stat p {
+            margin: 5px 0 0 0;
+            color: #414042;
+        }
+        @media (max-width: 768px) {
+            .tucson-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>STILL POINT FENCING</h1>
+            <div class="subtitle">2024-2025 Season Success Report</div>
+        </div>
+
+        <div class="achievement-banner">
+            🏆 EXCELLENCE IN COMPETITIVE FENCING 🏆
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card primary">
+                <h3>83</h3>
+                <p>Competing Members</p>
+                <small style="opacity: 0.9;">Largest active roster in AZ</small>
+            </div>
+            <div class="stat-card success">
+                <h3>87</h3>
+                <p>Total Medals Won</p>
+                <small style="opacity: 0.9;">35 Gold, 17 Silver, 35 Bronze</small>
+            </div>
+            <div class="stat-card primary">
+                <h3>31</h3>
+                <p>Rated Fencers</p>
+                <small style="opacity: 0.9;">Leaders in rated competitors</small>
+            </div>
+            <div class="stat-card success">
+                <h3>13</h3>
+                <p>Division 1 Fencers</p>
+                <small style="opacity: 0.9;">A, B, and C rated</small>
+            </div>
+            <div class="stat-card primary">
+                <h3>13</h3>
+                <p>New Ratings Earned</p>
+                <small style="opacity: 0.9;">Higher letter or first-time</small>
+            </div>
+            <div class="stat-card success">
+                <h3>30</h3>
+                <p>Total Ratings Earned</p>
+                <small style="opacity: 0.9;">13 new, 17 renewals</small>
+            </div>
+        </div>
+
+        <h2>Tournament Participation Excellence</h2>
+        <div class="chart-wrapper">
+            <canvas id="participationChart"></canvas>
+        </div>
+
+        <div class="highlight-box">
+            <h3 style="margin-top: 0;">SPF Excellence by the Numbers</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>League Points Leaders:</strong> SPF fencers hold #1 in Epee (Fowler), #1 in Foil (M. Chen), with 3 of top 5 in Epee rankings</li>
+                <li><strong>Medal Performance:</strong> Won 86 total medals (34 Gold, 17 Silver, 35 Bronze) across all events</li>
+                <li><strong>Senior Open Excellence:</strong> 38 medals in unrestricted senior events showcasing elite competition</li>
+                <li><strong>Division 1 Competitors:</strong> 13 fencers with A, B, or C ratings form our elite competitive core</li>
+                <li><strong>Active Participation:</strong> 335 total tournament entries - highest participation rate in Arizona</li>
+                <li><strong>Rating Success:</strong> 13 new ratings plus 17 renewals = 30 total ratings earned</li>
+                <li><strong>Tournament Hosting:</strong> Wildcat Open drew 211 entries, Tucson Open 158 entries - largest events in Arizona</li>
+            </ul>
+        </div>
+
+        <div class="tucson-section">
+            <h2 style="border-bottom: 3px solid #414042;">TUCSON OPEN 2025 - Our Flagship Tournament</h2>
+            <p style="font-size: 18px; margin: 20px 0;">The Tucson Open continues to be one of Arizona's premier fencing tournaments, drawing competitors from across the Southwest and beyond for multiple events over the weekend.</p>
+            
+            <div class="tucson-stats">
+                <div class="tucson-stat">
+                    <h4>158</h4>
+                    <p>Total Event Entries</p>
+                </div>
+                <div class="tucson-stat">
+                    <h4>78</h4>
+                    <p>SPF Entries</p>
+                </div>
+                <div class="tucson-stat">
+                    <h4>49.4%</h4>
+                    <p>SPF Participation</p>
+                </div>
+                <div class="tucson-stat">
+                    <h4>6</h4>
+                    <p>Events Hosted</p>
+                </div>
+                <div class="tucson-stat">
+                    <h4>27</h4>
+                    <p>Out-of-State Fencers</p>
+                </div>
+            </div>
+
+            <p style="font-size: 16px; margin-top: 30px;">The Tucson Open showcased the best of competitive fencing, with SPF members dominating the medal stands and demonstrating exceptional sportsmanship throughout the competition. Fencers traveled from California, Nevada, New Mexico, Hawaii, and beyond to compete. These 158 entries represent total event registrations across all 6 events hosted.</p>
+        </div>
+
+        <h2>Most Active Competitors</h2>
+        <div class="top-performers">
+            <p style="text-align: center; font-style: italic; color: #7f8c8d; margin-bottom: 20px;">Top 9 competitors by tournament participation</p>
+            <div class="performer-list" id="topPerformers"></div>
+        </div>
+
+        <h2>Most Medaled Competitors (All Events)</h2>
+        <div class="top-performers">
+            <div id="topMedalists"></div>
+        </div>
+        <p style="text-align: center; margin-top: 10px; font-size: 14px; color: #7f8c8d; font-style: italic;">*Medal counts reflect placements in all events, including senior, youth, and division-restricted competitions.</p>
+
+        <h2>Weapon Distribution</h2>
+        <div class="chart-container">
+            <canvas id="weaponBreakdownChart" style="max-height: 350px;"></canvas>
+        </div>
+
+        <h2>Rating Distribution</h2>
+        <div class="chart-container">
+            <canvas id="ratingPieChart" style="max-height: 350px;"></canvas>
+        </div>
+        <p class="rating-note" style="text-align: center;">*New rating = earning a higher letter (e.g., E→D, D→C) or first-time rating. Renewal = maintaining same letter with updated year (e.g., D2024→D2025).</p>
+
+        <h2>Tournament Hosting Excellence</h2>
+        <div class="highlight-box" style="background: linear-gradient(135deg, #fef5f5 0%, #fee8e8 100%); border-left-color: #be1e2d;">
+            <h3 style="margin-top: 0;">SPF: Arizona's Premier Tournament Host</h3>
+            <ul style="line-height: 1.8;">
+                <li><strong>Wildcat Open:</strong> 211 entries - Largest tournament in Arizona this season</li>
+                <li><strong>Tucson Open:</strong> 158 entries - Second largest tournament with 49.4% SPF participation</li>
+                <li><strong>Combined Impact:</strong> SPF-hosted events drew 369 total event entries, showcasing our organizational excellence</li>
+                <li><strong>Community Building:</strong> Our tournaments bring together fencers from across the Southwest</li>
+            </ul>
+        </div>
+
+        <h2>Competitive Achievements</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Achievement</th>
+                    <th>SPF Performance</th>
+                    <th>Notable Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Total Medals Won</strong></td>
+                    <td>86 medals</td>
+                    <td>34 Gold, 17 Silver, 35 Bronze (all events)</td>
+                </tr>
+                <tr>
+                    <td><strong>Senior Open Medals</strong></td>
+                    <td>38 medals</td>
+                    <td>18 Gold, 8 Silver, 12 Bronze (unrestricted events)</td>
+                </tr>
+                <tr>
+                    <td><strong>Rating Achievements</strong></td>
+                    <td>30 ratings earned</td>
+                    <td>13 new ratings, 17 renewals</td>
+                </tr>
+                <tr>
+                    <td><strong>Multi-Weapon Excellence</strong></td>
+                    <td>Nicholas Going</td>
+                    <td>Medals in both foil and saber events</td>
+                </tr>
+                <tr>
+                    <td><strong>Gold Medal Champions</strong></td>
+                    <td>Multiple winners</td>
+                    <td>Norbutas (8), Jacob E. (6), Going (3), Fowler (2), Collins (2), Chen (1)</td>
+                </tr>
+                <tr>
+                    <td><strong>Youth Development</strong></td>
+                    <td>Strong junior/cadet results</td>
+                    <td>Building the next generation of champions</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="achievement-banner" style="margin-top: 40px;">
+            Every Point Earned • Every Victory Celebrated • Every Fencer Family
+        </div>
+
+        <div class="footer-note">
+            <p><strong>Prepared for:</strong> SPF Members and Families<br>
+            <strong>Data Source:</strong> AskFRED Competition Results 2024-2025 Season<br>
+            Analysis includes all sanctioned tournaments through June 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Data for charts
+        const topPerformers = [
+            { rank: "#1", name: "Louis Feldman", events: 23, details: "Tucson Open - Senior Mixed Epee\nTucson Open - D & Under (Div 3) Senior Mixed Epee\nTucson Open - Senior Mixed Foil\nASU Spring - Senior Mixed Epee\nASU Spring - E & Under Senior Mixed Epee\nASU Spring - Senior Mixed Foil\nASU Spring - E & Under Senior Mixed Foil\nASU Fall - Senior Mixed Epee\nASU Fall - E & Under Senior Mixed Epee\nASU Fall - Senior Mixed Foil\nASU Fall - E & Under Mixed Foil\nAZ Championship - Senior Mixed Epee\nAZ Championship - Senior Mixed Foil\nWildcat Open - Senior Mixed Epee\nWildcat Open - D & Under (Div 3) Senior Mixed Epee\nWildcat Open - Senior Mixed Foil\nWildcat Open - E & Under Senior Mixed Foil\nPFA Season Opener - Senior Mixed Epee\nSPF Summer - C & Under (Div 2) Senior Mixed Epee\nSPF Summer - E & Under Senior Mixed Epee\nSPF Summer - Vet Combined Mixed Epee\nSPF Summer - Senior Mixed Foil\nSPF Summer - D & Under (Div 3) Senior Mixed Foil" },
+            { rank: "#2", name: "Austin Orelup", events: 20, details: "Flagstaff June - Senior Mixed Epee\nFlagstaff June - D & Under (Div 3) Senior Mixed Epee\nPhoenix Falcons - Senior Mixed Epee\nPhoenix Falcons (Ramirez) - Senior Mixed Epee\nAZ Summer - C & Under (Div 2) Senior Men's Epee\nTucson Open - Senior Mixed Epee\nTucson Open - D & Under (Div 3) Senior Mixed Epee\nASU Spring - Senior Mixed Epee\nASU Spring - E & Under Senior Mixed Epee\nASU Fall - Senior Mixed Epee\nASU Fall - E & Under Senior Mixed Epee\nAZ Championship - Senior Mixed Epee\nWildcat Open - Senior Mixed Epee\nWildcat Open - D & Under (Div 3) Senior Mixed Epee\nPFA Season Opener - Senior Mixed Epee\nFlagstaff August - Senior Mixed Epee\nFlagstaff August - D & Under (Div 3) Senior Mixed Epee\nSPF Summer - C & Under (Div 2) Senior Mixed Epee\nSPF Summer - E & Under Senior Mixed Epee\nSPF Summer - Senior Mixed Foil" },
+            { rank: "#3", name: "Cody Schwenk", events: 16, details: "Flagstaff June - Senior Mixed Epee\nFlagstaff June - D & Under (Div 3) Senior Mixed Epee\nPhoenix Falcons - Senior Mixed Epee\nPhoenix Falcons - Senior Mixed Foil\nTucson Open - Senior Mixed Epee\nTucson Open - D & Under (Div 3) Senior Mixed Epee\nASU Spring - Senior Mixed Epee\nASU Fall - Senior Mixed Epee\nASU Fall - E & Under Senior Mixed Epee\nASU Fall - Senior Mixed Foil\nASU Fall - E & Under Mixed Foil\nAZ Championship - Senior Mixed Epee\nAZ Championship - Senior Mixed Foil\nPFA Holiday Open - Senior Mixed Epee\nWildcat Open - Senior Mixed Epee\nSPF Summer - C & Under (Div 2) Senior Mixed Epee" },
+            { rank: "#4", name: "Vernon Collins", events: 15, details: "Flagstaff June - Senior Mixed Epee\nPhoenix Falcons - Senior Mixed Epee\nTucson Open - Senior Mixed Epee\nTucson Open - Div 1 Senior Mixed Epee\nASU Spring - Senior Mixed Epee\nAZ Championship - Senior Mixed Epee\nAZ Championship - Junior Mixed Epee\nPFA Holiday Open - Senior Mixed Epee\nWildcat Open - Senior Mixed Epee\nWildcat Open - Senior Mixed Foil\nFlagstaff August - Senior Mixed Epee\nGFA August - Junior Men's Epee\nGFA August - Senior Men's Epee\nSPF Summer - Div 1 Senior Mixed Epee\nSPF Summer - Senior Mixed Foil" },
+            { rank: "#5T", name: "Tom Cuevas", events: 12, details: "Phoenix Falcons - Senior Mixed Epee\nPhoenix Falcons (Ramirez) - Senior Mixed Epee\nAZ Summer - C & Under (Div 2) Senior Men's Epee\nGFA January - Senior Men's Epee\nASU Fall - Senior Mixed Epee\nASU Fall - E & Under Senior Mixed Epee\nAZ Championship - Senior Mixed Epee\nWildcat Open - Senior Mixed Epee\nSPF Summer - C & Under (Div 2) Senior Mixed Epee\nSPF Summer - E & Under Senior Mixed Epee\nSPF Summer - Vet Combined Mixed Epee\nSPF Summer - Vet Combined Mixed Epee" },
+            { rank: "#5T", name: "Christina Marikos", events: 12, details: "Tucson Open - Senior Mixed Epee\nTucson Open - D & Under (Div 3) Senior Mixed Epee\nASU Spring - Senior Mixed Epee\nASU Spring - E & Under Senior Mixed Epee\nWildcat Open - Senior Mixed Epee\nWildcat Open - D & Under (Div 3) Senior Mixed Epee\nWildcat Open (FENCE LIKE A GIRL) - Senior Women's Epee\nFlagstaff August - Senior Mixed Epee\nFlagstaff August - D & Under (Div 3) Senior Mixed Epee\nSPF Summer - C & Under (Div 2) Senior Mixed Epee\nSPF Summer - E & Under Senior Mixed Epee\nSPF Summer - E & Under Senior Mixed Epee" },
+            { rank: "#7T", name: "James Fowler", events: 11, details: "Flagstaff June - Senior Mixed Epee\nPhoenix Falcons - Senior Mixed Epee\nTucson Open - Senior Mixed Epee\nTucson Open - Div 1 Senior Mixed Epee\nASU Spring - Senior Mixed Epee\nAZ Championship - Senior Mixed Epee\nWildcat Open - Senior Mixed Epee\nPFA Holiday Open - Senior Mixed Epee\nFlagstaff August - Senior Mixed Epee\nGFA August - Senior Men's Epee\nSPF Summer - Div 1 Senior Mixed Epee" },
+            { rank: "#7T", name: "Jonathan Herron", events: 11, details: "Flagstaff June - Senior Mixed Epee\nPhoenix Falcons (Ramirez) - Senior Mixed Epee\nAZ Summer - C & Under (Div 2) Senior Men's Epee\nTucson Open - Senior Mixed Epee\nTucson Open - D & Under (Div 3) Senior Mixed Epee\nGFA January - Senior Men's Epee\nASU Spring - Senior Mixed Epee\nAZ Championship - Senior Mixed Epee\nWildcat Open - Senior Mixed Epee\nWildcat Open - D & Under (Div 3) Senior Mixed Epee\nFlagstaff August - Senior Mixed Epee" },
+            { rank: "#7T", name: "Ethan Roldan", events: 11, details: "Flagstaff June - Senior Mixed Epee\nFlagstaff June - D & Under (Div 3) Senior Mixed Epee\nTucson Open - Senior Mixed Epee\nTucson Open - D & Under (Div 3) Senior Mixed Epee\nASU Spring - Senior Mixed Epee\nASU Spring - E & Under Senior Mixed Epee\nASU Fall - Senior Mixed Epee\nASU Fall - E & Under Senior Mixed Epee\nAZ Championship - Senior Mixed Epee\nWildcat Open - Senior Mixed Epee\nWildcat Open - D & Under (Div 3) Senior Mixed Epee" }
+        ];
+
+        const topMedalists = [
+            { name: "Jackson Norbutas", gold: 8, silver: 1, bronze: 0, 
+              goldEvents: "Tucson Open - Senior Mixed Epee\nTucson Open - Div 1 Senior Mixed Epee\nASU Spring - Senior Mixed Epee\nASU Fall - Senior Mixed Epee\nAZ Championship - Senior Mixed Epee\nPFA Season Opener - Senior Mixed Epee\nGFA August - Senior Men's Epee\nSPF Summer - Div 1 Senior Mixed Epee",
+              silverEvents: "Wildcat Open - Senior Mixed Epee" },
+            { name: "Ezra Jacob", gold: 6, silver: 0, bronze: 0,
+              goldEvents: "AZ Summer - C & Under Senior Men's Foil\nTucson Open - Senior Mixed Foil\nGFA March - Senior Men's Foil\nAZ Championship - Senior Mixed Foil\nAZ JOs - Junior Men's Foil\nWildcat Open - E & Under Senior Mixed Foil" },
+            { name: "Vernon Collins", gold: 2, silver: 1, bronze: 3,
+              goldEvents: "AZ Championship - Junior Mixed Epee\nGFA August - Junior Men's Epee",
+              silverEvents: "Phx Falcons - Senior Mixed Epee",
+              bronzeEvents: "PFA Holiday Open - Senior Mixed Epee\nFlagstaff August - Senior Mixed Epee\nSPF Summer - Div 1 Senior Mixed Epee" },
+            { name: "Nicholas Going", gold: 3, silver: 1, bronze: 2,
+              goldEvents: "ASU Spring - Senior Mixed Foil\nASU Fall - Senior Mixed Foil\nASU Spring - E & Under Senior Mixed Saber",
+              silverEvents: "SPF Summer - Senior Mixed Foil",
+              bronzeEvents: "Tucson Open - Senior Mixed Foil\nGFA August - Senior Men's Epee" },
+            { name: "James Fowler", gold: 2, silver: 1, bronze: 2,
+              goldEvents: "PFA Holiday Open - Senior Mixed Epee\nFlagstaff August - Senior Mixed Epee",
+              silverEvents: "AZ Championship - Senior Mixed Epee",
+              bronzeEvents: "Phx Falcons - Senior Mixed Epee\nGFA August - Senior Men's Epee" },
+            { name: "Chang Chun Chen", gold: 1, silver: 1, bronze: 1,
+              goldEvents: "SPF Summer - Senior Mixed Foil",
+              silverEvents: "Wildcat Open - E & Under Senior Mixed Foil",
+              bronzeEvents: "AZ Championship - Senior Mixed Foil" },
+            { name: "Clayton Ritter", gold: 0, silver: 0, bronze: 3,
+              bronzeEvents: "Tucson Open - Senior Mixed Epee\nTucson Open - Div 1 Senior Mixed Epee\nWildcat Open - Senior Mixed Epee" },
+            { name: "James Brechtel", gold: 0, silver: 1, bronze: 1,
+              silverEvents: "ASU Spring - Senior Mixed Epee",
+              bronzeEvents: "AZ Championship - Senior Mixed Epee" }
+        ];
+
+        // Populate top performers
+        const performerContainer = document.getElementById('topPerformers');
+        topPerformers.forEach(performer => {
+            const item = document.createElement('div');
+            item.className = 'performer-item';
+            item.title = performer.details; // Add hover tooltip
+            item.innerHTML = `
+                <div class="performer-rank">${performer.rank}</div>
+                <div class="performer-name">${performer.name}</div>
+                <div class="performer-events">${performer.events} events</div>
+            `;
+            performerContainer.appendChild(item);
+        });
+
+        // Populate top medalists
+        const medalistContainer = document.getElementById('topMedalists');
+        topMedalists.forEach((medalist, index) => {
+            const totalMedals = medalist.gold + medalist.silver + medalist.bronze;
+            const item = document.createElement('div');
+            // Determine border color based on highest medal type
+            let borderClass = 'bronze';
+            if (medalist.gold > 0) borderClass = 'gold';
+            else if (medalist.silver > 0) borderClass = 'silver';
+            item.className = 'medal-item ' + borderClass;
+            
+            // Build hover text
+            let hoverText = '';
+            if (medalist.goldEvents) hoverText += 'GOLD:\n' + medalist.goldEvents + '\n\n';
+            if (medalist.silverEvents) hoverText += 'SILVER:\n' + medalist.silverEvents + '\n\n';
+            if (medalist.bronzeEvents) hoverText += 'BRONZE:\n' + medalist.bronzeEvents;
+            item.title = hoverText.trim();
+            
+            item.innerHTML = `
+                <div>
+                    <div class="performer-rank">#${index + 1}</div>
+                    <div class="performer-name">${medalist.name}</div>
+                </div>
+                <div class="medal-count">
+                    ${medalist.gold > 0 ? `<span class="medal-icon gold"></span> ${medalist.gold}` : ''}
+                    ${medalist.silver > 0 ? `<span class="medal-icon silver"></span> ${medalist.silver}` : ''}
+                    ${medalist.bronze > 0 ? `<span class="medal-icon bronze"></span> ${medalist.bronze}` : ''}
+                    <strong>(${totalMedals})</strong>
+                </div>
+            `;
+            medalistContainer.appendChild(item);
+        });
+
+        // Participation Chart
+        new Chart(document.getElementById('participationChart'), {
+            type: 'bar',
+            data: {
+                labels: ['SPF', 'Club 2', 'Club 3', 'Club 4', 'Club 5'],
+                datasets: [{
+                    label: 'Number of Tournament Entries by Club',
+                    data: [335, 233, 209, 194, 190],
+                    backgroundColor: ['#be1e2d', '#414042', '#414042', '#414042', '#414042']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'SPF Leads Arizona in Tournament Participation',
+                        font: { size: 18 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 350,
+                        title: {
+                            display: true,
+                            text: 'Number of Tournament Entries'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Weapon Breakdown Chart
+        new Chart(document.getElementById('weaponBreakdownChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Epee (72%)', 'Foil (28%)'],
+                datasets: [{
+                    data: [240, 93],
+                    backgroundColor: ['#414042', '#be1e2d'],
+                    borderWidth: 3,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 14 } }
+                    },
+                    title: {
+                        display: true,
+                        text: 'SPF Weapon Specialization (333 total entries)',
+                        font: { size: 18 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed || 0;
+                                return label + ': ' + value + ' entries';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Rating Pie Chart
+        new Chart(document.getElementById('ratingPieChart'), {
+            type: 'pie',
+            data: {
+                labels: ['A-Rated (2)', 'B-Rated (6)', 'C-Rated (4)', 'D-Rated (12)', 'E-Rated (6)', 'Unrated (53)'],
+                datasets: [{
+                    data: [2, 6, 4, 12, 6, 53],
+                    backgroundColor: ['#8b0000', '#be1e2d', '#d42a39', '#414042', '#7f7f7f', '#cccccc'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { font: { size: 12 } }
+                    },
+                    title: {
+                        display: true,
+                        text: '37% of SPF Competitors Hold National Ratings',
+                        font: { size: 18 }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
